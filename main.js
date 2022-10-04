@@ -82,7 +82,7 @@ server.get('/api/categories/main', (req, res) => {
     const productsDb = [...db.get('products').value()]
     categoriesDb.forEach((category) => {
         if (category.isActive && category.isMain) {
-            category.productsTotal = productsDb.find(item => item.categoryId === category.id).length
+            category.productsTotal = productsDb.filter(item => item.categoryId === category.id).length
             category.categoryParentName = {
                 id: category.categoryParentId,
                 name: categoriesDb.find((item) => item.id === category.categoryParentId).name,
@@ -90,7 +90,6 @@ server.get('/api/categories/main', (req, res) => {
             result.push(category);
         }
     });
-
     res.send(result);
 });
 
