@@ -79,8 +79,10 @@ server.get('/api/category/categoryParent', (req, res) => {
 server.get('/api/categories/main', (req, res) => {
     const result = [];
     const categoriesDb = [...db.get('categories').value()];
+    const productsDb = [...db.get('products').value()]
     categoriesDb.forEach((category) => {
         if (category.isActive && category.isMain) {
+            category.productsTotal = productsDb.find(item => item.categoryId === category.id).length
             category.categoryParentName = {
                 id: category.categoryParentId,
                 name: categoriesDb.find((item) => item.id === category.categoryParentId).name,
